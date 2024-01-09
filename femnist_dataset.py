@@ -11,7 +11,7 @@ class FEMNIST(MNIST):
         super(MNIST, self).__init__(root, transform=transform, target_transform=target_transform)
         self.download = download
         self.download_link = 'https://media.githubusercontent.com/media/GwenLegate/femnist-dataset-PyTorch/main/femnist.tar.gz'
-        self.file_md5 = '60433bc62a9bff266244189ad497e2d7'
+        self.file_md5 = 'a8a28afae0e007f1acb87e37919a21db'
         self.train = train
         self.root = root
         self.training_file = f'{self.root}/FEMNIST/processed/femnist_train.pt'
