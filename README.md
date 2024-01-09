@@ -6,8 +6,15 @@ a custom PyTorch dataset class for the LEAF femnist dataset
 the file [femnist.tar.gz](/femnist.tar.gz) contains
 - femnist_train.pt
 - femnist_test.pt
+- femnist_user_keys.pt
 
-These files contain the entire femnist dataset split into 90% train, 10% test partitions
+#### femnist_user_keys.pt:
+Contains a list of individual authors of the letters and digits in the dataset
+
+#### femnist_train.pt and femnist_test.pt
+These files contain the entire femnist dataset split into 80% train, 20% test partitions. Each sample is associated 
+with one of the authors listed in femnist_user_keys.pt so that samples may be divided between federated clients by 
+author if required.
 The data was obtained from the [TalwalkarLab/leaf](https://github.com/TalwalkarLab/leaf/tree/master/data/femnist) 
 repository by following the setup instructions provided and executing the command
 `./preprocess.sh -s niid --sf 1.0 -k 0 -t sample` to obtain the full sized dataset.
