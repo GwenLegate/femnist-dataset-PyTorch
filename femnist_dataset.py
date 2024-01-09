@@ -16,8 +16,10 @@ class FEMNIST(MNIST):
         self.root = root
         self.training_file = f'{self.root}/FEMNIST/processed/femnist_train.pt'
         self.test_file = f'{self.root}/FEMNIST/processed/femnist_test.pt'
+        self.user_list = f'{self.root}/FEMNIST/processed/user_keys.pt'
 
-        if not os.path.exists(f'{self.root}/FEMNIST/processed/femnist_test.pt') or not os.path.exists(f'{self.root}/FEMNIST/processed/femnist_train.pt'):
+        if not os.path.exists(f'{self.root}/FEMNIST/processed/femnist_test.pt') \
+                or not os.path.exists(f'{self.root}/FEMNIST/processed/femnist_train.pt'):
             if self.download:
                 self.dataset_download()
             else:
@@ -28,17 +30,18 @@ class FEMNIST(MNIST):
         else:
             data_file = self.test_file
 
-        data_and_targets = torch.load(data_file)
-        self.data, self.targets = data_and_targets[0], data_and_targets[1]
+        data_targets_users = torch.load(data_file)
+        self.data, self.targets, self.users = data_targets_users[0], data_targets_users[1], data_targets_users[2]
+        self.user_ids = torch.load(self.user_list)
 
     def __getitem__(self, index):
-        img, target = self.data[index], int(self.targets[index])
+        img, target, user = self.data[index], int(self.targets[index]), self.users[index]
         img = Image.fromarray(img.numpy(), mode='F')
         if self.transform is not None:
             img = self.transform(img)
         if self.target_transform is not None:
             target = self.target_transform(target)
-        return img, target
+        return img, target, user
 
     def dataset_download(self):
         paths = [f'{self.root}/FEMNIST/raw/', f'{self.root}/FEMNIST/processed/']
@@ -50,7 +53,7 @@ class FEMNIST(MNIST):
         filename = self.download_link.split('/')[-1]
         utils.download_and_extract_archive(self.download_link, download_root=f'{self.root}/FEMNIST/raw/', filename=filename, md5=self.file_md5)
 
-        files = ['femnist_train.pt', 'femnist_test.pt']
+        files = ['femnist_train.pt', 'femnist_test.pt', 'femnist_user_keys.pt']
         for file in files:
             # move to processed dir
             shutil.move(os.path.join(f'{self.root}/FEMNIST/raw/', file), f'{self.root}/FEMNIST/processed/')
