@@ -16,7 +16,7 @@ class FEMNIST(MNIST):
         self.root = root
         self.training_file = f'{self.root}/FEMNIST/processed/femnist_train.pt'
         self.test_file = f'{self.root}/FEMNIST/processed/femnist_test.pt'
-        self.user_list = f'{self.root}/FEMNIST/processed/user_keys.pt'
+        self.user_list = f'{self.root}/FEMNIST/processed/femnist_user_keys.pt'
 
         if not os.path.exists(f'{self.root}/FEMNIST/processed/femnist_test.pt') \
                 or not os.path.exists(f'{self.root}/FEMNIST/processed/femnist_train.pt'):
