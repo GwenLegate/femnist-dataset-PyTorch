@@ -31,7 +31,7 @@ class FEMNIST(MNIST):
             data_file = self.test_file
 
         data_targets_users = torch.load(data_file)
-        self.data, self.targets, self.users = data_targets_users[0], data_targets_users[1], data_targets_users[2]
+        self.data, self.targets, self.users = torch.Tensor(data_targets_users[0]), torch.Tensor(data_targets_users[1]), data_targets_users[2]
         self.user_ids = torch.load(self.user_list)
 
     def __getitem__(self, index):
